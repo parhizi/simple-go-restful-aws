@@ -1,0 +1,88 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+# AWS service name.
+service: simple-Go-RESTful-AWS
+
+custom:
+  devicesTableName: ${self:service}-${self:provider.stage}-devices
+  devicesTableArn: # ARNs are addresses of deployed services in AWS space.
+    Fn::Join:
+    - ":"
+    - - arn
+      - aws
+      - dynamodb
+      - Ref: AWS::Region
+      - Ref: AWS::AccountId
+      - table/${self:custom.devicesTableName}
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev # Your development stage
+  region: us-east-2
+  environment:
+    DEVICES_TABLE_NAME: ${self:custom.devicesTableName}
+  iamRoleStatements: # Defines what other AWS services our lambda functions can access.
+    - Effect: Allow # Allow access to DynamoDB tables.
+      Action:
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - ${self:custom.devicesTableArn}
+
+package:
+ individually: true
+ exclude:
+   - ./**
+
+functions:
+  addDevice:
+    handler: bin/handlers/addDevice
+    package:
+     include:
+       - ./bin/handlers/addDevice
+    events:
+      - http:
+          path: addDevice
+          method: post
+          cors: true
+  getDeviceById:
+    handler: bin/handlers/getDeviceById
+    package:
+     include:
+       - ./bin/handlers/getDeviceById
+    events:
+      - http:
+          path: devices/{id}
+          method: get
+          cors: true
+          
+resources:
+  Resources:
+    DevicesTable: # Define a new DynamoDB Table resource to store items
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.devicesTableName}
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
