@@ -141,7 +141,7 @@ Body:
     "serial": "A020000102"
   }
 ```
-### GET Sample:
+### GET sample:
 Let's query the previously added item.
 ```
 curl -i https://<api-gateway-url>/devices/id1HTTP-Statuscode: HTTP 200
