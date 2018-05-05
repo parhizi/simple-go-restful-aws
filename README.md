@@ -112,7 +112,7 @@ By executing this script, `*_test.go` file of each `addDevice.go` and `getDevice
 ```
 ./script/build.sh
 ```
-#### Sample Unit Test Output 
+#### Unit Test Output Sample 
 ```
 Testing .go files
 PASS
