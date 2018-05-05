@@ -145,6 +145,8 @@ Body:
 Let's query the previously added item.
 ```
 curl -i https://<api-gateway-url>/devices/id1HTTP-Statuscode: HTTP 200
+
+Response:
 content-type: application/json
 body:
   {
