@@ -114,11 +114,11 @@ func TestGetDeviceById(t *testing.T) {
 
         //{
         //// In Testing environment, as we don't access AWS's OS environment variable and other real world parameters, can not reach to
-        //// HTTP code 201 point in here, unless we prepare a mock server for it.
+        //// HTTP code 200 point in here, unless we prepare a mock server for it.
         //  Name:                   "** Testing: Proper id which does exist on DB. **",
         // 	Request:                events.APIGatewayProxyRequest{PathParameters: map[string]string {"id":"id1"}},
         //  //ExpectedBody:         "{\"id\":\"1\",\"deviceModel\":\"testDeviceModel\",\"name\":\"testName\",\"note\":\"testNote\",\"serial\":\"testSerial\"}" ,
-        // 	ExpectedStatusCode:     201,
+        // 	ExpectedStatusCode:     200,
         //},
 
     }
@@ -173,7 +173,7 @@ func TestValidateDatabaseResult(t *testing.T) {
             Name:                   "** Database Returns founded device **",
             MockDatabaseOutput:     MockOutput,
             ExpectedBody:           "{\"id\":\"id_test\",\"deviceModel\":\"deviceModel_test\",\"name\":\"name_test\",\"note\":\"note_test\",\"serial\":\"serial_test\"}",
-            ExpectedStatusCode:     201,
+            ExpectedStatusCode:     200,
         },
     }
 
