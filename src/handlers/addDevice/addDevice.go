@@ -28,8 +28,9 @@ type AmazonWebServices struct {
     DynamoDB dynamodbiface.DynamoDBAPI
 }
 
-// Preparing AWS & DynamoDB session
-func ConfigureAws()(*AmazonWebServices) {
+// Prepare a new AWS & DynamoDB session, then configure it.
+var TestAws *AmazonWebServices
+func init() {
     region := os.Getenv("AWS_REGION")
     var Aws *AmazonWebServices = new(AmazonWebServices)
     Aws.Config = &aws.Config{Region: aws.String(region),}
@@ -41,7 +42,8 @@ func ConfigureAws()(*AmazonWebServices) {
         var svc *dynamodb.DynamoDB = dynamodb.New(Aws.Session)
         Aws.DynamoDB = dynamodbiface.DynamoDBAPI(svc)
     }
-    return Aws
+    // Instantiate a global session in TestAws
+    TestAws = Aws
 }
 
 // Preparing DynamoDB Session and Calling DB's PutItem function inside.
@@ -71,14 +73,11 @@ func AddDevice(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
         }, nil
     }
 
-    // Prepare a new AWS & DynamoDB session and configure it.
-    TestAws := ConfigureAws()
-
     // Serialization/Encoding "NewDevice" in "item" for using in DynamoDB functions.
     item, _ := dynamodbattribute.MarshalMap(NewDevice)
 
     // Till now the user have provided a valid data input.
-    // Let's add it to the DynamoDB talble.
+    // Let's add it to the DynamoDB table.
     _, err = TestAws.Put(item)
 
     // If internal database errors occurred, return HTTP error code 500.
@@ -93,7 +92,7 @@ func AddDevice(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
     jsonResponse, _ := json.Marshal(NewDevice)
     return events.APIGatewayProxyResponse {
         Body: string(jsonResponse),
-        // Everthing looks fine, return HTTP 201
+        // Everything looks fine, return HTTP 201
         StatusCode: 201,
     }, nil
 } // End of AddDevice function
