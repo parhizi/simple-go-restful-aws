@@ -27,8 +27,9 @@ type AmazonWebServices struct {
     DynamoDB dynamodbiface.DynamoDBAPI
 }
 
-// Preparing AWS & DynamoDB session
-func ConfigureAws()(*AmazonWebServices) {
+// Prepare a new AWS & DynamoDB session, then configure it.
+var TestAws *AmazonWebServices
+func init() {
     region := os.Getenv("AWS_REGION")
     var Aws *AmazonWebServices = new(AmazonWebServices)
     Aws.Config = &aws.Config{Region: aws.String(region),}
@@ -40,7 +41,8 @@ func ConfigureAws()(*AmazonWebServices) {
         var svc *dynamodb.DynamoDB = dynamodb.New(Aws.Session)
         Aws.DynamoDB = dynamodbiface.DynamoDBAPI(svc)
     }
-    return Aws
+    // Instantiate a global session in TestAws
+    TestAws = Aws
 }
 
 // Preparing DynamoDB Session and Calling DB's GetItem function inside.
@@ -77,9 +79,6 @@ func GetDeviceById(request events.APIGatewayProxyRequest) (events.APIGatewayProx
             StatusCode: 404,
         }, nil
     }
-
-    // Prepare a new AWS & DynamoDB session and configure it.
-    TestAws := ConfigureAws()
 
     // Till now the user have provided an id in string type.
     // Let's see whether it's existed on DB or not.
