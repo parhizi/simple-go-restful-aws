@@ -37,6 +37,7 @@ func init() {
     var err error
     Aws.Session, err = session.NewSession(Aws.Config)
     if err != nil {
+        // Logs error on Amazon CloudWatch. It's sysadmin's duty to handle it.
         fmt.Println(fmt.Sprintf("Failed to connect to AWS: %s", err.Error()))
     } else {
         var svc *dynamodb.DynamoDB = dynamodb.New(Aws.Session)
