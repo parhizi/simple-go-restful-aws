@@ -119,10 +119,10 @@ func ValidateDatabaseResult(result *dynamodb.GetItemOutput, err error)( events.A
     // Serialization/Encoding item to JSON.
     FoundedDeviceJson, _ := json.Marshal(item)
 
-    // Return founded item as JSON type with 201 HTTP status code.
+    // Return founded item as JSON type with 200 HTTP status code.
     return events.APIGatewayProxyResponse{
         Body: string(FoundedDeviceJson),
-        StatusCode: 201,
+        StatusCode: 200,
     }
 } // End of ValidateDatabaseResult function
 
