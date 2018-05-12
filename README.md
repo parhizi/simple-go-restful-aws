@@ -116,10 +116,10 @@ By executing this script, `*_test.go` file of each `addDevice.go` and `getDevice
 ```
 Testing .go files
 PASS
-coverage: 92.0% of statements
-ok  	github.com/me/Simple-Go-RESTful-AWS/src/handlers/addDevice	0.007s
+coverage: 91.8% of statements
+ok  	github.com/me/Simple-Go-RESTful-AWS/src/handlers/addDevice	0.026s
 PASS
-coverage: 93.3% of statements
+coverage: 93.1% of statements
 ok  	github.com/me/Simple-Go-RESTful-AWS/src/handlers/getDeviceById	0.005s
 Done.
 ```
