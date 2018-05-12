@@ -6,6 +6,9 @@ cd src/handlers/
 
 for folder in */;
   do
+  if [ $folder == "vendor/" ] ; then
+    continue;
+  fi
   (cd $folder
 
     for innerFile in *;
