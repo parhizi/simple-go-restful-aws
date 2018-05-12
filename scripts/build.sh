@@ -9,12 +9,16 @@ rm -rf bin/
 cd src/handlers/
 
 for folder in */;
+  
   do
+  if [ $folder == "vendor/" ] ; then
+    continue;
+  fi
   (cd $folder
     for f in *.go;
     do  
       if [ $f == *"_test.go" ] ; then
-  echo "— "$f "Skipped"
+        echo "— "$f "Skipped"
         continue;
       fi
 
