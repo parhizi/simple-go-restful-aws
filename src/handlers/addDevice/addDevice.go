@@ -11,16 +11,9 @@ import (
     "github.com/aws/aws-sdk-go/service/dynamodb"
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+    "types"
     "fmt"
 )
-
-type Device struct {
-    ID          string  `json:"id"`
-    DeviceModel string  `json:"deviceModel"`
-    Name        string  `json:"name"`
-    Note        string  `json:"note"`
-    Serial      string  `json:"serial"`
-}
 
 type AmazonWebServices struct {
     Config *aws.Config
@@ -98,13 +91,13 @@ func AddDevice(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
     }, nil
 } // End of AddDevice function
 
-func ValidateInputs(request events.APIGatewayProxyRequest) (Device, error) {
-    NewDevice := Device {}
+func ValidateInputs(request events.APIGatewayProxyRequest) (types.Device, error) {
+    NewDevice := types.Device {}
     ErrorMessage := ""
 
     if len(request.Body) == 0 {
         ErrorMessage = "No inputs provided, please provide inputs in JSON format."
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     // De-serialize "request.Body" which is in JSON format into "NewDevice" in Go object.
@@ -112,32 +105,32 @@ func ValidateInputs(request events.APIGatewayProxyRequest) (Device, error) {
 
     if err != nil {
         ErrorMessage = "Wrong format: Inputs must be a valid JSON."
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     if len(NewDevice.ID) == 0 {
         ErrorMessage = "Missing field: ID"
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     if len(NewDevice.DeviceModel) == 0 {
         ErrorMessage = "Missing field: Device Model"
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     if len(NewDevice.Name) == 0 {
         ErrorMessage = "Missing field: Name"
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     if len(NewDevice.Note) == 0 {
         ErrorMessage = "Missing field: Note"
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     if len(NewDevice.Serial) == 0 {
         ErrorMessage = "Missing field: Serial"
-        return Device{}, errors.New(ErrorMessage)
+        return types.Device{}, errors.New(ErrorMessage)
     }
 
     // Everything looks fine, return created NewDevice in Go struct.
