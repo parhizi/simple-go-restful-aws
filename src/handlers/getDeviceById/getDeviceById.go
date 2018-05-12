@@ -10,16 +10,9 @@ import (
     "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/service/dynamodb"
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
+    "types"
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
-
-type Device struct {
-    ID          string  `json:"id"`
-    DeviceModel string  `json:"deviceModel"`
-    Name        string  `json:"name"`
-    Note        string  `json:"note"`
-    Serial      string  `json:"serial"`
-}
 
 type AmazonWebServices struct {
     Config *aws.Config
@@ -112,7 +105,7 @@ func ValidateDatabaseResult(result *dynamodb.GetItemOutput, err error)( events.A
 
     // Till now the input id have been founded.
     // Let's convert this founded "result.item" from DB which is in DynamoDB type to Go struct.
-    item := Device {}
+    item := types.Device {}
     // Deserialization/Decoding "result.Item" to Go struct.
     dynamodbattribute.UnmarshalMap(result.Item, &item)
 
