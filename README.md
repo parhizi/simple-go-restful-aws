@@ -1,4 +1,6 @@
 # Simple Serverless Restful API with Golang on AWS Lambda, API Gateway & DynamoDB
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fparhizi%2Fsimple-go-restful-aws.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fparhizi%2Fsimple-go-restful-aws?ref=badge_shield)
+
 ## Description
 This RESTful API is written on Go language, based on these stacks:
 - AWS Lambda
@@ -157,3 +159,7 @@ body:
     "serial": "A020000102"
   }
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fparhizi%2Fsimple-go-restful-aws.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fparhizi%2Fsimple-go-restful-aws?ref=badge_large)
